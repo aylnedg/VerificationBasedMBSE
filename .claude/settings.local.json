@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__simulink__detect_matlab_toolboxes",
+      "mcp__simulink__evaluate_matlab_code",
+      "mcp__matlab__detect_matlab_toolboxes",
+      "mcp__matlab__evaluate_matlab_code"
+    ]
+  }
+}
