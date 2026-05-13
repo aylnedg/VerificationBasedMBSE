@@ -1,0 +1,83 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<title>Traceability Report — Phase 2</title>
+<style>
+body{font-family:Arial,sans-serif;font-size:13px;margin:36px;color:#222}
+h1{color:#003087;border-bottom:2px solid #003087;padding-bottom:6px}
+h2{color:#003087;margin-top:28px;border-bottom:1px solid #ccc;padding-bottom:4px}
+table{border-collapse:collapse;width:100%;margin-top:10px}
+th{background:#003087;color:#fff;padding:8px 12px;text-align:left;font-size:12px}
+td{padding:6px 12px;border-bottom:1px solid #ddd;vertical-align:top;font-size:12px}
+tr:hover td{background:#eef4ff}
+.av{background:#e6f4e6}.fc{background:#f4e6f4}.gc{background:#fff3e0}.gu{background:#e0f4f9}
+.flag{background:#fff3cd}.cov{font-weight:bold;font-size:14px}
+</style></head><body>
+<h1>VerificationBasedMBSE &mdash; Requirement Traceability Report</h1>
+<p><b>Phase 2 &mdash; Design Layer Links</b> &nbsp;|&nbsp; Generated: 13-May-2026 15:54:42 &nbsp;|&nbsp; MATLAB R2026a</p>
+<h2>Coverage Summary</h2>
+<table><tr><th>Requirement Set</th><th>Leaf Requirements</th><th>Linked to Design Layer</th><th>Coverage</th></tr>
+<tr><td>uav.slreqx</td><td>21</td><td>18</td><td class="cov">86%</td></tr>
+<tr><td>SystemRequirements.slreqx</td><td>26</td><td>23</td><td class="cov">88%</td></tr>
+<tr><td><i>gcs.slreqx + SecurityRequirement.slreqx</i></td><td>4</td><td>4</td><td class="cov">100%</td></tr>
+</table>
+<h2>Link Count by Design Model</h2>
+<table><tr><th>Design Model</th><th>Links</th><th>Requirement Sets Covered</th></tr>
+<tr class="av"><td><b>AirVehicle.slx</b></td><td>26</td><td>SystemRequirements.slreqx, uav.slreqx</td></tr>
+<tr class="fc"><td><b>FeedbackControl.slx</b></td><td>5</td><td>SystemRequirements.slreqx, uav.slreqx</td></tr>
+<tr class="gc"><td><b>GCS.slx</b></td><td>9</td><td>SecurityRequirement.slreqx, SystemRequirements.slreqx, gcs.slreqx, uav.slreqx</td></tr>
+<tr class="gu"><td><b>Guidance.slx</b></td><td>6</td><td>SystemRequirements.slreqx, uav.slreqx</td></tr>
+</table>
+<h2>Full Traceability Table</h2>
+<table><tr><th>Design Model</th><th>Req ID</th><th>Index</th><th>Summary</th><th>Req Set</th><th>Link Type</th></tr>
+<tr class="av"><td>AirVehicle</td><td>#2</td><td>1.1</td><td>Cruise Speed</td><td>uav.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#3</td><td>1.2</td><td>Max Speed</td><td>uav.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#4</td><td>1.3</td><td>UAV Operation Period</td><td>uav.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#5</td><td>1.4</td><td>Operational Radius</td><td>uav.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#6</td><td>1.5</td><td>Recovery Condition</td><td>uav.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#7</td><td>1.6</td><td>Operational Altitude</td><td>uav.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#9</td><td>2.1</td><td>Power Source</td><td>uav.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#10</td><td>2.2</td><td>Sizing</td><td>uav.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#12</td><td>3.1</td><td>Total volume</td><td>uav.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#13</td><td>3.2</td><td>Total Mass</td><td>uav.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#22</td><td>5.2</td><td>Payload sensor</td><td>uav.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#24</td><td>6</td><td>Image Processing</td><td>uav.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#2</td><td>2</td><td>Imaging Capability</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#3</td><td>2.1</td><td>Image Capture</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#4</td><td>2.2</td><td>Image Processing</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#5</td><td>2.3</td><td>Imagery Intelligence</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#12</td><td>4.1</td><td>Cruise Speed</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#13</td><td>4.2</td><td>Max Speed</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#14</td><td>4.3</td><td>UAV Operation Period</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#15</td><td>4.4</td><td>Operational Radius</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#16</td><td>4.5</td><td>Recovery Condition</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#17</td><td>4.6</td><td>Operational Altitude</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#19</td><td>5.1</td><td>Power Source</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#20</td><td>5.2</td><td>Sizing</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#22</td><td>6.1</td><td>Total volume</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+<tr class="av"><td>AirVehicle</td><td>#23</td><td>6.2</td><td>Total Mass</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+<tr class="fc"><td>FeedbackControl</td><td>#15</td><td>4.1</td><td>FCS communications</td><td>uav.slreqx</td><td>Implement</td></tr>
+<tr class="fc"><td>FeedbackControl</td><td>#18</td><td>4.4</td><td>FCS Control</td><td>uav.slreqx</td><td>Implement</td></tr>
+<tr class="fc"><td>FeedbackControl</td><td>#8</td><td>3.2</td><td>UAV Hover Capabilities</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+<tr class="fc"><td>FeedbackControl</td><td>#25</td><td>7.1</td><td>FCS communications</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+<tr class="fc"><td>FeedbackControl</td><td>#30</td><td>7.4</td><td>FCS Control</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+<tr class="gc"><td>GCS</td><td>#15</td><td>4.1</td><td>FCS communications</td><td>uav.slreqx</td><td>Implement</td></tr>
+<tr class="gc"><td>GCS</td><td>#25</td><td>4.1.1</td><td>FCS receive commands</td><td>uav.slreqx</td><td>Implement</td></tr>
+<tr class="gc"><td>GCS</td><td>#26</td><td>4.1.2</td><td>FCS send telemetry</td><td>uav.slreqx</td><td>Implement</td></tr>
+<tr class="gc"><td>GCS</td><td>#25</td><td>7.1</td><td>FCS communications</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+<tr class="gc"><td>GCS</td><td>#26</td><td>7.1.1</td><td>FCS receive commands</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+<tr class="gc"><td>GCS</td><td>#27</td><td>7.1.2</td><td>FCS send telemetry</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+<tr class="gc"><td>GCS</td><td>#2</td><td>1.1</td><td>Operator Commands</td><td>gcs.slreqx</td><td>Implement</td></tr>
+<tr class="gc"><td>GCS</td><td>#3</td><td>1.2</td><td>Operator Situational Awareness</td><td>gcs.slreqx</td><td>Implement</td></tr>
+<tr class="gc"><td>GCS</td><td>#2</td><td>1</td><td>GCS to UAV Communication Security</td><td>SecurityRequirement.slreqx</td><td>Implement</td></tr>
+<tr class="gu"><td>Guidance</td><td>#16</td><td>4.2</td><td>FCS Modes</td><td>uav.slreqx</td><td>Implement</td></tr>
+<tr class="gu"><td>Guidance</td><td>#17</td><td>4.3</td><td>FCS Target Tracking</td><td>uav.slreqx</td><td>Implement</td></tr>
+<tr class="gu"><td>Guidance</td><td>#7</td><td>3.1</td><td>UAV Autonomous Flying</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+<tr class="gu"><td>Guidance</td><td>#10</td><td>3.4</td><td>UAV Fly Patterns</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+<tr class="gu"><td>Guidance</td><td>#28</td><td>7.2</td><td>FCS Modes</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+<tr class="gu"><td>Guidance</td><td>#29</td><td>7.3</td><td>FCS Target Tracking</td><td>SystemRequirements.slreqx</td><td>Implement</td></tr>
+</table>
+<h2>Flagged Requirements (No Link Created)</h2>
+<table><tr><th>Req ID</th><th>Summary</th><th>Keywords</th><th>Rationale</th></tr>
+<tr class="flag"><td>uav #23</td><td>Max Payload Weight</td><td>REVIEW</td><td>Suspected copy-paste error &mdash; inconsistent with uav #13 (total mass &le; 5 kg). Requires authoring correction.</td></tr>
+</table>
+<hr><p style="color:#888;font-size:11px">Generated by MATLAB R2026a &mdash; Requirements Toolbox &mdash; VerificationBasedMBSE</p>
+</body></html>
