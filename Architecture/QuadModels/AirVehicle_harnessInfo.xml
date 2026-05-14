@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HarnessInformation>
+  <Harness>
+    <P Name="Name">AirVehicle_final_harness</P>
+    <P Name="Description"/>
+    <P Name="CreatedBy">aylin.edgu</P>
+    <P Name="CreatedOn">Thu May 14 11:17:42 2026</P>
+    <P Name="ModifiedBy">aylin.edgu</P>
+    <P Name="LastSaved">Thu May 14 11:17:44 2026</P>
+    <P Name="Owner">bd</P>
+    <P Name="OwnerType">BD_HARNESS</P>
+    <P Name="OwnerPath">.</P>
+    <P Name="Directory"/>
+    <P Name="FileName">AirVehicle_final_harness.slx</P>
+    <P Name="SavedVersion">26.1</P>
+    <P Name="HarnessUUID">ed359128-7568-499e-8c07-d59efb6ff678</P>
+    <P Name="HarnessConnectionsMap">0|0,1,2|0,0,0,0||</P>
+    <P Name="VerificationMode">0</P>
+    <P Name="HarnessOwnerCheckSum">0,0,0,0</P>
+    <P Name="RebuildOnOpen">false</P>
+    <P Name="RebuildModelData">false</P>
+    <P Name="Graphical">false</P>
+    <P Name="DriveFcnCallWithTS">true</P>
+    <P Name="ScheduleInitTermReset">false</P>
+    <P Name="AutoShapeInputs">false</P>
+    <P Name="SLDVCompatible">no</P>
+    <P Name="SynchronizationMode">1</P>
+    <P Name="IsImported">false</P>
+    <P Name="PostRebuildCB"/>
+    <P Name="IsCodeContext">false</P>
+    <P Name="SchedulerBlock">0</P>
+    <P Name="SourceTypeString">Signal Editor</P>
+    <P Name="SinkTypeString">Outport</P>
+    <P Name="CustomSourcePath"/>
+    <P Name="CustomSinkPath"/>
+    <P Name="BlockSIDs">2|8|0|0|0|0|0</P>
+    <P Name="OpenGraphs"/>
+    <P Name="ExistingBuildFolder"/>
+    <P Name="FunctionInterfaceName"/>
+    <P Name="SysArchSUTModel"/>
+  </Harness>
+  <ModelMetadata>
+    <P Name="ModelUUID">dbb3b5c8-8809-4f37-bb9d-e5c73f28b21b</P>
+    <P Name="OwnerBDName">AirVehicle</P>
+  </ModelMetadata>
+</HarnessInformation>

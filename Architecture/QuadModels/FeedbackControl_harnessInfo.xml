@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HarnessInformation>
+  <Harness>
+    <P Name="Name">FeedbackControl_final_harness</P>
+    <P Name="Description"/>
+    <P Name="CreatedBy">aylin.edgu</P>
+    <P Name="CreatedOn">Thu May 14 10:47:29 2026</P>
+    <P Name="ModifiedBy">aylin.edgu</P>
+    <P Name="LastSaved">Thu May 14 10:47:34 2026</P>
+    <P Name="Owner">bd</P>
+    <P Name="OwnerType">BD_HARNESS</P>
+    <P Name="OwnerPath">.</P>
+    <P Name="Directory"/>
+    <P Name="FileName">FeedbackControl_final_harness.slx</P>
+    <P Name="SavedVersion">26.1</P>
+    <P Name="HarnessUUID">a9c513f8-de3f-4a86-a0ff-607d206299d0</P>
+    <P Name="HarnessConnectionsMap">0,1|0|0,0,0,0||</P>
+    <P Name="VerificationMode">0</P>
+    <P Name="HarnessOwnerCheckSum">0,0,0,0</P>
+    <P Name="RebuildOnOpen">false</P>
+    <P Name="RebuildModelData">false</P>
+    <P Name="Graphical">false</P>
+    <P Name="DriveFcnCallWithTS">true</P>
+    <P Name="ScheduleInitTermReset">false</P>
+    <P Name="AutoShapeInputs">false</P>
+    <P Name="SLDVCompatible">no</P>
+    <P Name="SynchronizationMode">1</P>
+    <P Name="IsImported">false</P>
+    <P Name="PostRebuildCB"/>
+    <P Name="IsCodeContext">false</P>
+    <P Name="SchedulerBlock">0</P>
+    <P Name="SourceTypeString">Signal Editor</P>
+    <P Name="SinkTypeString">Outport</P>
+    <P Name="CustomSourcePath"/>
+    <P Name="CustomSinkPath"/>
+    <P Name="BlockSIDs">2|12|0|0|0|0|0</P>
+    <P Name="OpenGraphs"/>
+    <P Name="ExistingBuildFolder"/>
+    <P Name="FunctionInterfaceName"/>
+    <P Name="SysArchSUTModel"/>
+  </Harness>
+  <ModelMetadata>
+    <P Name="ModelUUID">3da3d13b-2e09-4ca8-9c76-8ae80210b503</P>
+    <P Name="OwnerBDName">FeedbackControl</P>
+  </ModelMetadata>
+</HarnessInformation>

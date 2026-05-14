@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MF0 version="1.1" packageUris="http://schema.mathworks.com/mf0/faultinfo_datamodel/R2021a">
+  <faultinfo.FaultContainerSet type="faultinfo.FaultContainerSet" uuid="878ebe27-b6d2-4f93-88ba-85d29d013d84">
+    <faultContainers type="faultinfo.FaultContainer" uuid="177d6871-9f8d-41f1-b151-0cb78d2bd062">
+      <activeFault type="faultinfo.SLFault" uuid="8fbdf95d-70bd-473e-a493-40f917bb0b29"/>
+      <faultedEntityID>Outport|FeedbackControl:31|1</faultedEntityID>
+      <faultedEntityName>FeedbackControl/BusElementIn/Outport/1</faultedEntityName>
+      <faults type="faultinfo.SLFault" uuid="8ba1edf7-11e0-4e73-8236-e7824600fdd1">
+        <checksum>abfb9762-d105-4a12-b5cc-c4e466a9f3a5</checksum>
+        <faultDescription>IMU stops providing state data — input frozen at last value</faultDescription>
+        <faultName>IMU_SignalLoss</faultName>
+        <resyncUUID>00000000-0000-0000-0000-000000000000</resyncUUID>
+        <triggerOn type="faultinfo.TimedTrigger" uuid="a45cfb76-331e-445c-b465-e45a9ea5d3e1">
+          <startTime>5.0</startTime>
+          <isPersistent>true</isPersistent>
+        </triggerOn>
+      </faults>
+      <faults type="faultinfo.SLFault" uuid="8fbdf95d-70bd-473e-a493-40f917bb0b29">
+        <checksum>9820bf88-ec85-4454-8dd8-d5b77cb3ae98</checksum>
+        <faultDescription>GPS returns zero position — loss of satellite lock</faultDescription>
+        <faultName>GPS_Corruption</faultName>
+        <resyncUUID>00000000-0000-0000-0000-000000000000</resyncUUID>
+        <triggerOn type="faultinfo.TimedTrigger" uuid="2120847d-b7c1-4904-a42e-52e6ba9aaaf4">
+          <startTime>8.0</startTime>
+          <isPersistent>true</isPersistent>
+        </triggerOn>
+      </faults>
+      <isEnabled>true</isEnabled>
+    </faultContainers>
+    <faultContainers type="faultinfo.FaultContainer" uuid="6324b7ba-e046-4b83-be1c-76b0e9ea422b">
+      <activeFault type="faultinfo.SLFault" uuid="ba3ac2ee-35bd-44f2-b62d-e3448304d2a3"/>
+      <faultedEntityID>Inport|FeedbackControl:8|1</faultedEntityID>
+      <faultedEntityName>FeedbackControl/PID_Loops/Inport/1</faultedEntityName>
+      <faults type="faultinfo.SLFault" uuid="ba3ac2ee-35bd-44f2-b62d-e3448304d2a3">
+        <checksum>98cfc3ff-6d1e-48b3-8a6a-2df7b9a67059</checksum>
+        <faultDescription>Barometer reports altitude 2m higher than actual — classic sensor drift fault</faultDescription>
+        <faultName>AltSensor_Bias</faultName>
+        <resyncUUID>00000000-0000-0000-0000-000000000000</resyncUUID>
+        <triggerOn type="faultinfo.TimedTrigger" uuid="28639a0a-a832-4d4d-b16b-9d93911faa85">
+          <startTime>3.0</startTime>
+          <isPersistent>true</isPersistent>
+        </triggerOn>
+      </faults>
+      <isEnabled>true</isEnabled>
+    </faultContainers>
+    <faultContainers type="faultinfo.FaultContainer" uuid="5ba9809f-b73d-4b74-b34f-cf6a853ac644">
+      <activeFault type="faultinfo.SLFault" uuid="0170b1aa-6667-4a44-bb81-b53bc0eef002"/>
+      <faultedEntityID>Inport|FeedbackControl:27|1</faultedEntityID>
+      <faultedEntityName>FeedbackControl/Control/Inport/1</faultedEntityName>
+      <faults type="faultinfo.SLFault" uuid="0170b1aa-6667-4a44-bb81-b53bc0eef002">
+        <checksum>d2f05eab-c451-408d-93b2-85edc900665e</checksum>
+        <faultDescription>One motor command drops to zero — simulates ESC failure</faultDescription>
+        <faultName>Motor_Dropout</faultName>
+        <resyncUUID>00000000-0000-0000-0000-000000000000</resyncUUID>
+        <triggerOn type="faultinfo.TimedTrigger" uuid="4f10818f-52f3-48e9-9d7b-5eab5ff8a2e0">
+          <startTime>7.0</startTime>
+          <isPersistent>true</isPersistent>
+        </triggerOn>
+      </faults>
+      <isEnabled>true</isEnabled>
+    </faultContainers>
+    <isEnabled>true</isEnabled>
+    <lastUpdatedAt>2026-05-14T14:28:12</lastUpdatedAt>
+    <modelName>FeedbackControl</modelName>
+    <modelUUID>3da3d13b-2e09-4ca8-9c76-8ae80210b503</modelUUID>
+  </faultinfo.FaultContainerSet>
+  <faultinfo.FailureModeContainer type="faultinfo.FailureModeContainer" uuid="0a23d3e9-4aea-4bd1-9f16-e7771b85442a">
+    <failureModes type="faultinfo.FailureMode" uuid="ac7444bc-3e4d-4356-b173-dd71f41a501a">
+      <ID>1</ID>
+      <associatedFaults type="faultinfo.SLFault" uuid="8ba1edf7-11e0-4e73-8236-e7824600fdd1"/>
+      <faultSubsystemName>IMU_SignalLoss</faultSubsystemName>
+      <resyncUUID>00000000-0000-0000-0000-000000000000</resyncUUID>
+    </failureModes>
+    <faultModelName>FC_IMU_FaultModel</faultModelName>
+    <faultModelUUID>54d07908-1e0a-4765-b357-c77eec7ae0b4</faultModelUUID>
+  </faultinfo.FailureModeContainer>
+  <faultinfo.FailureModeContainer type="faultinfo.FailureModeContainer" uuid="95cf2be0-f0e5-497e-95dd-99b74a18d2de">
+    <failureModes type="faultinfo.FailureMode" uuid="2e3d28d0-008a-4339-b9b0-d8ac6f71c26e">
+      <ID>1</ID>
+      <associatedFaults type="faultinfo.SLFault" uuid="ba3ac2ee-35bd-44f2-b62d-e3448304d2a3"/>
+      <faultSubsystemName>AltSensor_Bias</faultSubsystemName>
+      <resyncUUID>00000000-0000-0000-0000-000000000000</resyncUUID>
+    </failureModes>
+    <faultModelName>FC_AltBias_FaultModel</faultModelName>
+    <faultModelUUID>95539de6-85bf-4a6c-8edc-5e1f3a95be5d</faultModelUUID>
+  </faultinfo.FailureModeContainer>
+  <faultinfo.FailureModeContainer type="faultinfo.FailureModeContainer" uuid="5ca515d3-f718-4353-ab78-5d3e3f2e570d">
+    <failureModes type="faultinfo.FailureMode" uuid="b317ace4-f3b8-4556-bb1d-ad50d416ed3c">
+      <ID>1</ID>
+      <associatedFaults type="faultinfo.SLFault" uuid="0170b1aa-6667-4a44-bb81-b53bc0eef002"/>
+      <faultSubsystemName>Motor_Dropout</faultSubsystemName>
+      <resyncUUID>00000000-0000-0000-0000-000000000000</resyncUUID>
+    </failureModes>
+    <faultModelName>FC_MotorDropout_FaultModel</faultModelName>
+    <faultModelUUID>aeed0e7e-df09-4c4d-b1fe-3544bf96201c</faultModelUUID>
+  </faultinfo.FailureModeContainer>
+  <faultinfo.FailureModeContainer type="faultinfo.FailureModeContainer" uuid="03f8c400-456a-4d4f-b9c6-70518155c6b7">
+    <failureModes type="faultinfo.FailureMode" uuid="b1aaa16e-a7fb-4fe6-bc69-a1c2d517cac9">
+      <ID>1</ID>
+      <associatedFaults type="faultinfo.SLFault" uuid="8fbdf95d-70bd-473e-a493-40f917bb0b29"/>
+      <faultSubsystemName>GPS_Corruption</faultSubsystemName>
+      <resyncUUID>00000000-0000-0000-0000-000000000000</resyncUUID>
+    </failureModes>
+    <faultModelName>FC_GPS_FaultModel</faultModelName>
+    <faultModelUUID>398cc116-202b-4b37-93e7-20fa520fb0f8</faultModelUUID>
+  </faultinfo.FailureModeContainer>
+</MF0>
