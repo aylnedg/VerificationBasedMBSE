@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Info File="Architecture/QuadArchitecture.slx" GroupUUID="fe1ff010-dc43-407c-baba-8c339d64a8ab" Icon="" Name="QuadSystemArchitecture" Type="StartUp" Visible="1">
+    <Extension Name="StartUpPrev" Value="HEAD"/>
+</Info>

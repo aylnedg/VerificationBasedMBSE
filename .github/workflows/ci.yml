@@ -1,0 +1,80 @@
+name: VerificationBasedMBSE CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate project structure
+        run: |
+          echo "=== Checking required files ==="
+          test -f VerificationBasedMBSE.prj && echo "PASS: .prj exists" || exit 1
+          test -f .gitattributes && echo "PASS: .gitattributes exists" || exit 1
+          test -d Requirements && echo "PASS: Requirements/ exists" || exit 1
+          test -d Design && echo "PASS: Design/ exists" || exit 1
+          test -d Verification && echo "PASS: Verification/ exists" || exit 1
+          test -f Verification/QuadcopterTests.mldatx && echo "PASS: test file exists" || exit 1
+
+      - name: Count requirement files
+        run: |
+          echo "=== Requirement sets ==="
+          find Requirements/ -name "*.slreqx" | while read f; do
+            echo "FOUND: $f"
+          done
+          COUNT=$(find Requirements/ -name "*.slreqx" | wc -l)
+          echo "Total requirement sets: $COUNT"
+          test $COUNT -ge 4 && echo "PASS: minimum requirement sets present" || exit 1
+
+      - name: Count design models
+        run: |
+          echo "=== Design models ==="
+          find Design/ -name "*.slx" | while read f; do
+            echo "FOUND: $f"
+          done
+          COUNT=$(find Design/ -name "*.slx" | wc -l)
+          echo "Total design models: $COUNT"
+          test $COUNT -ge 4 && echo "PASS: minimum design models present" || exit 1
+
+      - name: Count verification artifacts
+        run: |
+          echo "=== Verification artifacts ==="
+          find Verification/ -name "*.feature" | while read f; do
+            echo "FEATURE: $f"
+          done
+          find Verification/ -name "*.mldatx" | while read f; do
+            echo "TESTFILE: $f"
+          done
+          FEATURES=$(find Verification/ -name "*.feature" | wc -l)
+          test $FEATURES -ge 3 && echo "PASS: feature files present" || exit 1
+
+      - name: Check traceability reports exist
+        run: |
+          echo "=== Reports ==="
+          find Verification/reports/ -name "*.html" | while read f; do
+            echo "REPORT: $f"
+          done
+          COUNT=$(find Verification/reports/ -name "*.html" | wc -l)
+          test $COUNT -ge 1 && echo "PASS: traceability reports present" || exit 1
+
+      - name: Verify gitattributes covers MathWorks binaries
+        run: |
+          grep -q "slx" .gitattributes && echo "PASS: .slx covered" || exit 1
+          grep -q "slreqx" .gitattributes && echo "PASS: .slreqx covered" || exit 1
+          grep -q "mldatx" .gitattributes && echo "PASS: .mldatx covered" || exit 1
+          grep -q "mlAutoMerge" .gitattributes && echo "PASS: mlAutoMerge driver present" || exit 1
+
+      - name: Upload verification reports as artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verification-reports
+          path: Verification/reports/
+          retention-days: 30
