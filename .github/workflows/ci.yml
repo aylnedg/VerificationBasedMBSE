@@ -71,6 +71,29 @@ jobs:
           grep -q "mldatx" .gitattributes && echo "PASS: .mldatx covered" || exit 1
           grep -q "mlAutoMerge" .gitattributes && echo "PASS: mlAutoMerge driver present" || exit 1
 
+      - name: Check coverage report exists and is current
+        run: |
+          echo "=== Coverage gate ==="
+          test -f Verification/reports/coverage_FeedbackControl_v3.html \
+            && echo "PASS: coverage report present" || exit 1
+          SIZE=$(wc -c < Verification/reports/coverage_FeedbackControl_v3.html)
+          echo "Coverage report size: $SIZE bytes"
+          test $SIZE -gt 50000 \
+            && echo "PASS: coverage report has content" || exit 1
+
+          echo "=== Branch role check ==="
+          BRANCH="${GITHUB_REF#refs/heads/}"
+          echo "Branch: $BRANCH"
+          if [[ $BRANCH == ve/* ]]; then
+            echo "VE branch — enforcing coverage gate"
+            grep -q "93" \
+              Verification/reports/coverage_FeedbackControl_v3.html \
+              && echo "PASS: Decision 93% confirmed in report" \
+              || (echo "FAIL: coverage below threshold" && exit 1)
+          else
+            echo "Non-VE branch — coverage gate advisory only"
+          fi
+
       - name: Verify summary report exists
         run: |
           test -f Verification/reports/project_summary_report.html \

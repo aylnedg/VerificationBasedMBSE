@@ -1,0 +1,14 @@
+# VerificationBasedMBSE — Role-based ownership
+# Systems Engineer owns architecture and requirements
+Requirements/            @aylnedg
+Architecture/            @aylnedg
+Architecture/QuadData/   @aylnedg
+
+# Software Engineer owns design and generated code
+Design/                  @aylnedg
+GeneratedCode/           @aylnedg
+Architecture/QuadModels/ @aylnedg
+
+# Verification Engineer owns tests and CI
+Verification/            @aylnedg
+.github/                 @aylnedg
