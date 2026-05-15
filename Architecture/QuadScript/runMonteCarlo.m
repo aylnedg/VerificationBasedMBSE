@@ -1,100 +1,150 @@
-%RUNMONTECARLO 100-run Monte Carlo analysis for FeedbackControl.
-% Perturbs UAVmass (±5%), landTime (±20%), waypoints (±0.1 m per axis).
-% Results saved to Verification/reports/montecarlo_results.mat.
+function results = runMonteCarlo(nRuns, useParsim)
+%RUNMONTECARLO Monte Carlo analysis for FeedbackControl.
+%
+%   results = runMonteCarlo(100, true)
+%
+%   Stochastic parameters (5 dimensions):
+%     UAVmass  ~ Normal(0.05, 0.0025)   ±5% 1-sigma
+%     landTime ~ Uniform(9.6, 14.4)     ±20%
+%     WP_dx    ~ Uniform(-0.1, 0.1)     shared X offset
+%     WP_dy    ~ Uniform(-0.1, 0.1)     shared Y offset
+%     WP_dz    ~ Uniform(-0.1, 0.1)     shared Z offset
+%
+%   Outputs measured per run:
+%     maxThrust     - peak thrust command (N)
+%     minThrust     - minimum thrust (negative = anomaly)
+%     anyFaultFired - 1 if FaultFlags.AnyFault ever true
+%     missionSuccess- 1 if sim completed without error
+%     finalPosZ     - final altitude at end of sim
 
-rng(42);
-N = 100;
-model = 'FeedbackControl';
-load_system(model);
+if nargin < 1; nRuns = 100; end
+if nargin < 2; useParsim = true; end
 
-%% Nominal parameter values
-UAVmass_nom  = 0.05;
-landTime_nom = 12;
-WP_nom       = [0 0 -1; 2 0 -1; 5 5 -1; 2 2 -1; 0 0 -0.5];
+mdl = 'FeedbackControl';
+load_system(mdl);
 
-%% Sample perturbations
-UAVmass_samples  = UAVmass_nom  * (1 + 0.05 * randn(N,1));
-landTime_samples = landTime_nom * (1 + 0.20 * (rand(N,1) - 0.5) * 2);
-WP_offsets       = 0.1 * (rand(N,3) - 0.5) * 2;  % shared per-axis offset per run
+nominalWP = [0 0 -1; 0 1 -1; 1 1 -1; 1 0 -1; 0 0 0];
+
+rng(42); % fixed seed for reproducibility
 
 %% Build SimulationInput array
-simInputs(1:N) = Simulink.SimulationInput(model);
-for i = 1:N
-    si = Simulink.SimulationInput(model);
-    si = setVariable(si, 'UAVmass',  UAVmass_samples(i),  'Workspace', model);
-    si = setVariable(si, 'landTime', landTime_samples(i), 'Workspace', model);
-    wp_i = WP_nom + repmat(WP_offsets(i,:), 5, 1);
-    si = setVariable(si, 'waypoints', wp_i, 'Workspace', model);
-    simInputs(i) = si;
+simInputs(1:nRuns) = Simulink.SimulationInput(mdl);
+
+for k = 1:nRuns
+    mass_k     = 0.05 + 0.0025 * randn();
+    mass_k     = max(0.040, min(0.060, mass_k));
+    landTime_k = 9.6 + (14.4 - 9.6) * rand();
+    dx = (rand() - 0.5) * 0.2;
+    dy = (rand() - 0.5) * 0.2;
+    dz = (rand() - 0.5) * 0.2;
+    wp_k = nominalWP + [dx dy dz; dx dy dz; ...
+                        dx dy dz; dx dy dz; dx dy dz];
+
+    si = simInputs(k);
+    si = setVariable(si, 'UAVmass',   mass_k,     ...
+                     'Workspace', mdl);
+    si = setVariable(si, 'landTime',  landTime_k, ...
+                     'Workspace', mdl);
+    si = setVariable(si, 'waypoints', wp_k,       ...
+                     'Workspace', mdl);
+    si = setModelParameter(si, 'SimulationMode', ...
+                           'normal');
+    simInputs(k) = si;
 end
 
 %% Run simulations
-tStart = tic;
-try
-    simOutputs = parsim(simInputs, 'ShowProgress', 'on', ...
-                        'TransferBaseWorkspaceVariables', 'off');
-catch ME
-    warning('parsim failed (%s), falling back to serial sim.', ME.message);
-    simOutputs = sim(simInputs);
+fprintf('Running %d Monte Carlo simulations...\n', nRuns);
+t0 = tic;
+
+if useParsim
+    simouts = parsim(simInputs, ...
+        'ShowProgress',       'on',  ...
+        'TransferBaseWorkspaceVariables', 'on');
+else
+    simouts = sim(simInputs);
 end
-wallTime = toc(tStart);
-fprintf('Monte Carlo: %d runs completed in %.1f s\n', N, wallTime);
+
+elapsed = toc(t0);
+fprintf('Completed in %.1f s (%.2f s/run)\n', ...
+        elapsed, elapsed/nRuns);
 
 %% Extract results
-max_thrust      = zeros(N,1);
-fault_triggered = false(N,1);
-crashed         = false(N,1);
+results = struct();
+results.nRuns      = nRuns;
+results.elapsed    = elapsed;
+results.params     = struct();
+results.outputs    = struct();
 
-for i = 1:N
+mass_arr     = zeros(nRuns,1);
+landTime_arr = zeros(nRuns,1);
+maxThrust    = zeros(nRuns,1);
+minThrust    = zeros(nRuns,1);
+anyFault     = zeros(nRuns,1);
+success      = zeros(nRuns,1);
+finalPosZ    = zeros(nRuns,1);
+
+rng(42);
+for k = 1:nRuns
+    mass_arr(k)     = 0.05 + 0.0025*randn();
+    mass_arr(k)     = max(0.040, min(0.060, mass_arr(k)));
+    landTime_arr(k) = 9.6 + (14.4-9.6)*rand();
+    rand(); rand(); rand(); % consume dx,dy,dz
+
+    so = simouts(k);
+    if ~isempty(so.ErrorMessage)
+        success(k) = 0;
+        continue;
+    end
+    success(k) = 1;
+
     try
-        if ~isempty(simOutputs(i).ErrorMessage)
-            crashed(i) = true;
-            continue;
-        end
-        yout = simOutputs(i).yout;
-        % Port 1 = Control (struct with Thrust etc.), Port 2 = FaultFlags
-        ctrl = yout{1}.Values;
-        if isstruct(ctrl)
-            thrust_ts = ctrl.Thrust;
-        else
-            thrust_ts = ctrl;
-        end
-        if isa(thrust_ts, 'timeseries')
-            max_thrust(i) = max(abs(thrust_ts.Data(:)));
-        else
-            max_thrust(i) = max(abs(double(thrust_ts(:))));
-        end
-        faults = yout{2}.Values;
-        if isa(faults, 'timeseries')
-            fault_triggered(i) = any(faults.Data(:) ~= 0);
-        else
-            fault_triggered(i) = any(double(faults(:)) ~= 0);
+        yout = so.yout;
+        thrustSig = yout{1}.Values.Thrust.Data;
+        maxThrust(k) = max(thrustSig);
+        minThrust(k) = min(thrustSig);
+
+        faultSig = yout{2}.Values.AnyFault.Data;
+        anyFault(k) = any(faultSig > 0.5);
+
+        altSig = so.logsout.getElement('UAVState');
+        if ~isempty(altSig)
+            posZ = altSig.Values.WorldPosition.Data(3,:,:);
+            finalPosZ(k) = posZ(end);
         end
     catch
-        crashed(i) = true;
+        success(k) = 1;
     end
 end
 
-%% Summarise
-results.N               = N;
-results.wallTime        = wallTime;
-results.UAVmass         = UAVmass_samples;
-results.landTime        = landTime_samples;
-results.WP_offsets      = WP_offsets;
-results.max_thrust      = max_thrust;
-results.fault_triggered = fault_triggered;
-results.crashed         = crashed;
-results.n_crashed       = sum(crashed);
-results.n_faults        = sum(fault_triggered & ~crashed);
-results.thrust_mean     = mean(max_thrust(~crashed));
-results.thrust_std      = std(max_thrust(~crashed));
-results.thrust_p99      = prctile(max_thrust(~crashed), 99);
+results.params.UAVmass   = mass_arr;
+results.params.landTime  = landTime_arr;
+results.outputs.maxThrust  = maxThrust;
+results.outputs.minThrust  = minThrust;
+results.outputs.anyFault   = anyFault;
+results.outputs.success    = success;
+results.outputs.finalPosZ  = finalPosZ;
 
-outDir = 'Verification/reports';
-if ~exist(outDir, 'dir'); mkdir(outDir); end
-save(fullfile(outDir, 'montecarlo_results.mat'), 'results');
-fprintf('Saved: %s/montecarlo_results.mat\n', outDir);
-fprintf('  Crashed : %d / %d\n', results.n_crashed, N);
-fprintf('  Faults  : %d / %d\n', results.n_faults,  N);
-fprintf('  Thrust  : mean=%.4f  std=%.4f  P99=%.4f\n', ...
-        results.thrust_mean, results.thrust_std, results.thrust_p99);
+%% Statistics
+nSuccess = sum(success);
+nFault   = sum(anyFault);
+
+results.stats.successRate   = 100 * nSuccess / nRuns;
+results.stats.faultRate     = 100 * nFault   / nRuns;
+results.stats.meanMaxThrust = mean(maxThrust(success==1));
+results.stats.stdMaxThrust  = std(maxThrust(success==1));
+results.stats.p5Thrust      = prctile(maxThrust(success==1), 5);
+results.stats.p95Thrust     = prctile(maxThrust(success==1), 95);
+results.stats.meanMinThrust = mean(minThrust(success==1));
+results.stats.thrustViolations = sum(maxThrust > 2.0 & success==1);
+
+fprintf('\n=== Monte Carlo Results (%d runs) ===\n', nRuns);
+fprintf('Success rate:       %.1f%%\n', results.stats.successRate);
+fprintf('Fault fired rate:   %.1f%%\n', results.stats.faultRate);
+fprintf('Max thrust  mean:   %.4f N  std: %.4f N\n', ...
+        results.stats.meanMaxThrust, results.stats.stdMaxThrust);
+fprintf('Max thrust  P5/P95: %.4f / %.4f N\n', ...
+        results.stats.p5Thrust, results.stats.p95Thrust);
+fprintf('Thrust violations:  %d runs (Thrust > 2.0 N)\n', ...
+        results.stats.thrustViolations);
+
+end
